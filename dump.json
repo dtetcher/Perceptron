@@ -1,0 +1,10 @@
+{
+    "TrainingSpeed": 0.05,
+    "MinimalWeight": -0.5,
+    "MaximalWeight": 0.5,
+    "SynapticWeights": [
+        1.0129891638949184,
+        -0.12029074428856677,
+        0.6590434361570088
+    ]
+}
