@@ -1,15 +1,16 @@
-import abc
-from concrete.checkers import Check
-import json
-import random as rd
 from typing import List
-from abstract.a_activation_function import AbstractActivationFunction as ActivFunc
+import random as rd
+import json
+import abc
+
+from abstract.activation import ActivationFunction as AFunc
+from concrete.checkers import Check
 
 
 class AbstractPerceptron(abc.ABC):
     def __init__(self, input_data: List[list],          # List of train data
                  output_layer_pattern,                  # Lambda pattern which used for output layer data generation
-                 activation_function: ActivFunc,        # Neural network activation function
+                 activation_function: AFunc,        # Neural network activation function
                  min_weight_val: float = -0.5,          # Minimal and maximal synaptic weight's values
                  max_weight_val: float = 0.5,           # # # # Used for weights generation
                  training_speed: float = 0.05,          # Speed of neural network training

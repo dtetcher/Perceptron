@@ -1,5 +1,6 @@
-from abstract.a_perceptron import AbstractPerceptron
 from typing import List
+
+from abstract.perceptron import AbstractPerceptron
 
 
 class Perceptron(AbstractPerceptron):
