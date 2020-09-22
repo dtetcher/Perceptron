@@ -15,7 +15,6 @@ class AbstractPerceptron(abc.ABC):
                  max_weight_val: float = 0.5,           # # # # Used for weights generation
                  training_speed: float = 0.05,          # Speed of neural network training
                  config_file: str = './dump.json',      # Path to .json file with training data
-                 _load: bool = False,                   # Asks whether to load results or randomly generate
                  ):
 
         self._dataset_size = Check.if_input_valid(input_data,
@@ -31,11 +30,8 @@ class AbstractPerceptron(abc.ABC):
         self.__max_w = max_weight_val
         self.__training_speed = training_speed
 
-        if _load:
-            self._load_config()
-        else:
-            self._synaptic_weights = [rd.uniform(min_weight_val, max_weight_val)
-                                      for _ in range(self._dataset_size)]
+        self._synaptic_weights = [rd.uniform(min_weight_val, max_weight_val)
+                                  for _ in range(self._dataset_size)]
 
     @abc.abstractmethod
     def _train(self, laps: int) -> None:
@@ -49,7 +45,7 @@ class AbstractPerceptron(abc.ABC):
                   self.statistics(),
                   sep=f"\n{20 * '-'}\n")
 
-        self._train(laps)
+        laps = self._train(laps)
 
         print(f"Training finished({laps} laps).\n\n")
 
@@ -97,22 +93,19 @@ class AbstractPerceptron(abc.ABC):
 
     def _dump_config(self):
         data_hash = {
-            'TrainingSpeed': self.__training_speed,
-            'MinimalWeight': self.__min_w,
-            'MaximalWeight': self.__max_w,
             'SynapticWeights': self._synaptic_weights,
         }
 
         with open(self._config, 'wt') as f:
             json.dump(data_hash, f, ensure_ascii=False, indent=4)
 
+    def load(self):
+        self._load_config()
+
     def _load_config(self):
         with open(self._config, 'rt') as f:
             conf: dict = json.load(f)
 
-        self.__training_speed = conf['TrainingSpeed']
-        self.__min_w = conf['MinimalWeight']
-        self.__max_w = conf['MaximalWeight']
         self._synaptic_weights = conf['SynapticWeights']
 
     def statistics(self):
@@ -120,4 +113,8 @@ class AbstractPerceptron(abc.ABC):
                    f"Min: {self.__min_w}\n"
                    f"Max: {self.__max_w}\n"
                    f"SpeedWeight: {self.__training_speed}\n")
+
+    @property
+    def synaptic_weights(self):
+        return self._synaptic_weights
 
