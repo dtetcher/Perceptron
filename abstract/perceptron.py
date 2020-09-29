@@ -10,11 +10,11 @@ from concrete.checkers import Check
 class AbstractPerceptron(abc.ABC):
     def __init__(self, input_data: List[list],          # List of train data
                  output_layer_pattern,                  # Lambda pattern which used for output layer data generation
-                 activation_function: AFunc,        # Neural network activation function
-                 min_weight_val: float = -0.5,          # Minimal and maximal synaptic weight's values
-                 max_weight_val: float = 0.5,           # # # # Used for weights generation
-                 training_speed: float = 0.05,          # Speed of neural network training
-                 config_file: str = './dump.json',      # Path to .json file with training data
+                 activation_function: AFunc,            # Neural network activation function
+                 min_weight_val: float,                 # Minimal and maximal synaptic weight's values
+                 max_weight_val: float,                 # # # # Used for weights generation
+                 training_speed: float,                 # Speed of neural network training
+                 config_file: str,                      # Path to .json file with training data
                  ):
 
         self._dataset_size = Check.if_input_valid(input_data,

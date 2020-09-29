@@ -24,6 +24,7 @@ class WeightsAnalyser:
     def is_stable(self) -> bool:
 
         if len(self.__weights_storage) == self.__dataset_size:
+            print(len(self.__weights_storage), self.__dataset_size)
             status = self.__is_equal()
 
             self.__weights_storage.clear()
@@ -41,3 +42,26 @@ class WeightsAnalyser:
 
     def push(self, d_set: List):
         self.__weights_storage.append(deepcopy(d_set))
+
+
+class StuckObserver:
+    def __init__(self, iteration_limit: int):
+        self.__it_limit = iteration_limit
+        self.__curr_it: int = 0
+        self.__previous: list = []
+
+    def is_unchanged(self, _input: list) -> bool:
+
+        _input = deepcopy(_input)
+
+        if not self.__previous:
+            self.__previous = _input
+            return False
+
+        self.__curr_it = self.__curr_it + 1 \
+            if self.__previous == _input \
+            else 0
+
+        self.__previous = _input
+
+        return self.__it_limit == self.__curr_it
